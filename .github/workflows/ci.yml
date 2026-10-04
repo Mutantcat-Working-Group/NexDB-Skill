@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      # 纯标准库脚本：能编译就得能跑，装不了东西反而说明引了第三方依赖。
+      - name: Byte-compile the validator
+        run: python -m py_compile scripts/validate_skill.py
+
+      - name: Validate skill frontmatter, layout, and links
+        run: python3 scripts/validate_skill.py
+
+      # 密钥绝不进仓库：这是本项目的一条红线，CI 兜底。
+      - name: Guard against committed credentials
+        run: |
+          if grep -rInE '(ak_|sk-)[A-Za-z0-9]{16,}|AKIA[0-9A-Z]{16}' \
+               --exclude-dir=.git . ; then
+            echo "发现疑似密钥，请从提交里移除"
+            exit 1
+          fi
+          echo "未发现密钥字样"

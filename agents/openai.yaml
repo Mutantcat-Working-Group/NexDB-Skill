@@ -1,0 +1,15 @@
+interface:
+  display_name: "NexDB-Skill"
+  short_description: "通过 MCP 把 Claude Code、Cursor、Codex 等编程助手接到 NexDB。"
+  icon_small: "./assets/icon.png"
+  brand_color: "#2f6fed"
+  default_prompt: "Use $nexdb-mcp to connect this assistant to NexDB over MCP."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "dbx-mcp"
+      description: "NexDB MCP 服务端（默认 stdio；桌面端 Streamable HTTP 需在 NexDB 设置里开启）"
+      transport: "streamable_http"
+      url: "http://127.0.0.1:5225/mcp"

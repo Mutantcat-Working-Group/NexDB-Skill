@@ -1,0 +1,33 @@
+# 本仓库只有文档 + 一个标准库校验脚本，没有构建产物。
+# 这里只兜住解释器缓存、编辑器与系统垃圾文件；新增产物目录时显式加白，不靠这里兜底。
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+
+.venv/
+venv/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# ---------- 系统与编辑器 ----------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.log
